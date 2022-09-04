@@ -20,8 +20,24 @@ public class UsuarioController {
     }
 
     @PostMapping(path = "/api/usuario/cadastro")
-    public UsuarioModel cadastrarUsuario(@RequestBody UsuarioModel usuarioModel) {
-        return repository.save(usuarioModel);
+    public String cadastrarUsuario(@RequestBody UsuarioModel usuarioModel) {
+        if(repository.findById(usuarioModel.getId()).isPresent()) {
+            return "Usuário já cadastrado com o ID informado.";
+        }
+        repository.save(usuarioModel);
+        if(repository.findById(usuarioModel.getId()).isPresent()) {
+            return "Usuário cadastrado com sucesso.";
+        }
+        return "Falha ao tentar cadastrar o usuário.";
+    }
+
+    @DeleteMapping(path = "/api/usuario/remover")
+    public String deletarUsuario(@RequestBody UsuarioModel usuarioModel) {
+        if(repository.findById(usuarioModel.getId()).isPresent()) {
+            repository.delete(usuarioModel);
+            return "Usuário deletado com sucesso.";
+        }
+        return "Usuário não existe na base, exclusão não realizada.";
     }
 
 }
