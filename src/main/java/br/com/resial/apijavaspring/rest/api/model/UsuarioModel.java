@@ -16,6 +16,15 @@ public class UsuarioModel {
     @Column(nullable = false, length = 10)
     public String password;
 
+    public UsuarioModel() {}
+
+    public UsuarioModel(UsuarioModelDTO usuarioModelDTO) {
+        setId(usuarioModelDTO.getId());
+        setNome(usuarioModelDTO.getNome());
+        setLogin(usuarioModelDTO.getLogin());
+        setPassword(usuarioModelDTO.getPassword());
+    }
+
     public Integer getId() {
         return id;
     }
