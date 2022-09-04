@@ -1,6 +1,7 @@
 package br.com.resial.apijavaspring.rest.api.controller;
 
 import br.com.resial.apijavaspring.rest.api.model.UsuarioModel;
+import br.com.resial.apijavaspring.rest.api.model.UsuarioModelDTO;
 import br.com.resial.apijavaspring.rest.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,9 @@ public class UsuarioController {
     }
 
     @PostMapping(path = "/api/usuario/cadastro")
-    public String cadastrarUsuario(@RequestBody UsuarioModel usuarioModel) {
+    public String cadastrarUsuario(@RequestBody UsuarioModelDTO usuarioModelDTO) {
+        UsuarioModel usuarioModel = new UsuarioModel(usuarioModelDTO);
+
         if(repository.findById(usuarioModel.getId()).isPresent()) {
             return "Usuário já cadastrado com o ID informado.";
         }
@@ -32,7 +35,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping(path = "/api/usuario/remover")
-    public String deletarUsuario(@RequestBody UsuarioModel usuarioModel) {
+    public String deletarUsuario(@RequestBody UsuarioModelDTO usuarioModelDTO) {
+        UsuarioModel usuarioModel = new UsuarioModel(usuarioModelDTO);
+
         if(repository.findById(usuarioModel.getId()).isPresent()) {
             repository.delete(usuarioModel);
             return "Usuário deletado com sucesso.";
